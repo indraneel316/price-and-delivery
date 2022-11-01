@@ -5,6 +5,7 @@ import Pojo.InputVo;
 import Pojo.PackagesAndVehicleDetails;
 import Pojo.IPackagesDetails;
 import Pojo.Vehicle;
+import Transformer.Constants.PDConstants;
 import Validator.Validator;
 import IO.IOClass;
 import Service.PriceAndDeliveryService;
@@ -21,8 +22,10 @@ public class PriceAndDeliveryServiceImpl implements PriceAndDeliveryService {
     BusinessLogic businessLogic = new BusinessLogic();
     Transformer transformer = new Transformer();
 
+    PDConstants PDConstants = new PDConstants();
+
     public void estimateDeliveryCostAndDeliveryTime(InputVo inputVo) {
-        if(new Validator().validateInput(inputVo)) {
+        if (new Validator().validateInput(inputVo)) {
             PackagesAndVehicleDetails packagesAndVehicleDetails = new PackagesAndVehicleDetails();
             List<Vehicle> vehicles = new ArrayList<>();
             int noOfVehicles = inputVo.getNoOfVehicles();
@@ -59,7 +62,7 @@ public class PriceAndDeliveryServiceImpl implements PriceAndDeliveryService {
             packagesAndVehicleDetails.getPackageDetails().add(transformer.
                     organizePackagesWithEstimatedCostAndDelivery(packageDetail.getPackageId(),
                             finalCost, cost - finalCost,
-                    availableVehicle.getVehicleReturnTime(), deliveryTime));
+                            availableVehicle.getVehicleReturnTime(), deliveryTime));
         }
         transformer.alterVehicleData(availableVehicle, maxDeliveryTimeForVehicle);
     }
@@ -79,17 +82,17 @@ public class PriceAndDeliveryServiceImpl implements PriceAndDeliveryService {
     public List<IPackagesDetails> prioritizePackages(int maxLoad, List<IPackagesDetails> iPackagesDetails) {
         int size = iPackagesDetails.size(), i, j;
         int[] packageWeights = new int[iPackagesDetails.size()];
-        int index = 0;
+        int index = PDConstants.ZERO;
         for (IPackagesDetails packageDetail : iPackagesDetails) {
             packageWeights[index] = packageDetail.getPackageWeightInKg();
             index++;
         }
         int[][] weightsLookup = new int[size + 1][maxLoad + 1];
         for (i = 0; i <= size; i++) {
-            weightsLookup[i][0] = 0;
+            weightsLookup[i][0] = PDConstants.ZERO;
         }
         for (j = 1; j <= maxLoad; j++) {
-            weightsLookup[0][j] = 0;
+            weightsLookup[0][j] = PDConstants.ZERO;
         }
 
         for (i = 1; i <= size; i++) {

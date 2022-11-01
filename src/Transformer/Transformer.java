@@ -2,6 +2,7 @@ package Transformer;
 
 import Pojo.OPackageDetails;
 import Pojo.Vehicle;
+import Transformer.Constants.PDConstants;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,6 +22,6 @@ public class Transformer {
 
     public void alterVehicleData(Vehicle vehicle, double maxDeliveryTimeForVehicle) {
         vehicle.setVehicleAvailable(false);
-        vehicle.setVehicleReturnTime(vehicle.getVehicleReturnTime() + (2 * maxDeliveryTimeForVehicle));
+        vehicle.setVehicleReturnTime(vehicle.getVehicleReturnTime() + (new PDConstants().TWO * maxDeliveryTimeForVehicle));
     }
 }

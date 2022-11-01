@@ -3,6 +3,7 @@ package Transformer.Constants;
 public class PDConstants {
 
     public final int ZERO = 0;
+    public final int TWO = 2;
     public final int FIVE = 5;
     public final int TEN = 10;
     public final int SEVEN = 7;
